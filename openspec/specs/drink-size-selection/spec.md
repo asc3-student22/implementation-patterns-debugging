@@ -22,26 +22,31 @@ The size selector SHALL allow the customer to choose exactly one size per menu c
 - **WHEN** the customer selects the "Small" size option on a menu card
 - **THEN** the small option becomes active, the previously active option is deactivated, and the order button updates to reflect the small size and price
 
-### Requirement: Order button reflects selected size and price
-The order button on each menu card SHALL display the currently selected size name and price.
+### Requirement: Order button reflects selected size and total price
+The order button on each menu card SHALL display the currently selected size and the full computed price, including selected customizations.
 
-#### Scenario: Order button shows selected size
-- **WHEN** the customer selects "Large" on the "Machine Learning Mocha" card
-- **THEN** the order button text reads "Order — $7.00" with the large price
+#### Scenario: Order button shows size-only total by default
+- **WHEN** a menu card first renders with medium selected and no customizations
+- **THEN** the order button text SHALL show the medium base price
 
-#### Scenario: Order button updates when size changes
-- **WHEN** the customer changes selection from large to small on a card
-- **THEN** the order button text updates to show the small size price
+#### Scenario: Order button updates when customizations change
+- **WHEN** the customer enables extra shot on a card with large size selected
+- **THEN** the order button text SHALL update to show the large base price plus $0.75
 
-### Requirement: Order is placed with the selected size
-When the customer clicks the order button, the system SHALL send the selected size to the API instead of always sending "medium".
+#### Scenario: Order button updates for milk alternative
+- **WHEN** the customer selects `almond` milk on a card
+- **THEN** the order button text SHALL include an additional $0.60 in the displayed total
 
-#### Scenario: Placing a small order
-- **WHEN** the customer selects "Small" on "Deep Learning Doppio" and clicks the order button
-- **THEN** the system sends `POST /api/orders` with `{ "item_id": "deep-doppio", "size": "small" }`
-- **THEN** the order queue shows "Small Deep Learning Doppio" at $3.50
+### Requirement: Order is placed with selected size and customizations
+When the customer clicks the order button, the system SHALL send both the selected size and selected customizations to the API.
 
-#### Scenario: Placing a large order
-- **WHEN** the customer selects "Large" on "Transformer Flat White" and clicks the order button
-- **THEN** the system sends `POST /api/orders` with `{ "item_id": "transformer-white", "size": "large" }`
-- **THEN** the order queue shows "Large Transformer Flat White" at $6.75
+#### Scenario: Placing a customized small order
+- **WHEN** the customer selects `small` and enables whipped cream for "Deep Learning Doppio" and clicks order
+- **THEN** the system SHALL send `POST /api/orders` with `{ "item_id": "deep-doppio", "size": "small", "customizations": { "extra_shot": false, "milk_alternative": "none", "whipped_cream": true } }`
+- **THEN** the order queue SHALL show "Small Deep Learning Doppio" with a total that includes the whipped cream charge
+
+#### Scenario: Placing a fully customized large order
+- **WHEN** the customer selects `large`, enables extra shot, selects `soy` milk, and enables whipped cream on "Transformer Flat White"
+- **THEN** the system SHALL send `POST /api/orders` including all selected customization fields
+- **THEN** the created order total SHALL equal base large price plus $0.75, $0.60, and $0.50
+
