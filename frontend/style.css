@@ -137,6 +137,52 @@ h2 {
     margin-top: 0.1rem;
 }
 
+.customization-controls {
+    border-top: 1px solid #0f3460;
+    margin-top: 0.2rem;
+    margin-bottom: 0.8rem;
+    padding-top: 0.7rem;
+    display: grid;
+    gap: 0.45rem;
+}
+
+.customization-title {
+    font-size: 0.72rem;
+    color: #8ea8c8;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+}
+
+.customization-toggle,
+.customization-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: #c7c7d6;
+}
+
+.customization-toggle input[type="checkbox"] {
+    accent-color: #e94560;
+}
+
+.milk-select {
+    flex: 1;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    border: 1px solid #0f3460;
+    border-radius: 4px;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.75rem;
+}
+
+.addon-price {
+    margin-left: auto;
+    color: #22d3ee;
+    font-size: 0.74rem;
+}
+
 .order-btn {
     background: #e94560;
     color: #fff;
@@ -181,11 +227,20 @@ h2 {
 .order-info .order-items {
     color: #fff;
     font-size: 0.95rem;
+    margin-left: 0.4rem;
+}
+
+.order-customizations {
+    color: #9fb8d8;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.1rem;
 }
 
 .order-info .order-price {
     color: #e94560;
     font-size: 0.85rem;
+    margin-left: 0.4rem;
 }
 
 .order-status {
@@ -278,4 +333,15 @@ footer {
     color: #505070;
     font-size: 0.8rem;
     border-top: 1px solid #0f3460;
+}
+
+@media (max-width: 640px) {
+    .order-item {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .order-status {
+        margin-right: 0;
+    }
 }

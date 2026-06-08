@@ -6,7 +6,7 @@ Data structures for the BeanBotics coffee ordering system.
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Literal
 from datetime import datetime, timezone
 
 
@@ -36,10 +36,21 @@ class MenuItem:
     sizes: Dict[str, Dict[str, Any]]
 
 
+MilkAlternative = Literal["none", "oat", "almond", "soy"]
+
+
+@dataclass
+class OrderCustomizations:
+    extra_shot: bool = False
+    milk_alternative: MilkAlternative = "none"
+    whipped_cream: bool = False
+
+
 @dataclass
 class Order:
     order_id: int
     items: List[str]
     total_price: float
+    customizations: OrderCustomizations = field(default_factory=OrderCustomizations)
     status: OrderStatus = OrderStatus.PENDING
     created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
